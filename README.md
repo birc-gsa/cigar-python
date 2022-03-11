@@ -118,3 +118,14 @@ With this function in hand, you can easily check that all the matches your algor
 
 
 ## Run-length encoding
+
+Read mappers do not use strings of edits the way we have done. With long reads and few edits, these are waseful in memory, and the output files are pretty large as it is. Instead, the edit operations are run-lenght encoded as CIGAR strings.
+
+You will also have to use CIGAR strings in the final project, but edits are much easier to work with, so we want some functions to translate between the two representations. Write two functions, `edits_to_cigar` and `cigar_to_edits` that translate between the two representations:
+
+```
+edits_to_cigar("MMIMMDDM") -> "2M1I2M2D1M"
+cigar_to_edits("2M1I2M2D1M") -> "MMIMMDDM"
+```
+
+
