@@ -74,16 +74,16 @@ get_edits (p, q, res_p, res_q, edits) =
         ([], []) -> (rev res_p, rev res_q, rev edits),
         -- We can't have deletions in both strings at the same time (that is an
         -- invariant we will insist upon), so these are the remaining operations
-        (a  ::p', '-'::q') -> get_edits(p', q', a :: res_p,      res_q, 'D' :: edits)
-        ('-'::p', b  ::q') -> get_edits(p', q',      res_p, b :: res_q, 'I' :: edits),
-        (a  ::p', b  ::q') -> get_edits(p', q', a :: res_p, b :: res_q, 'M' :: edits)
+        ( a  :: p', '-' :: q') -> get_edits(p', q', a :: res_p,      res_q, 'D' :: edits)
+        ('-' :: p',  b  :: q') -> get_edits(p', q',      res_p, b :: res_q, 'I' :: edits),
+        ( a  :: p',  b  :: q') -> get_edits(p', q', a :: res_p, b :: res_q, 'M' :: edits)
 ```
 
 This is in "pseudo-Haskell" and you don't necessarily want to implement it this way--it could be rather inefficient in some languages--but the rules will be the same: you are done when you are through the strings, otherwise you consider the first letter in the two, handle a gap in the second as a deletion, a gap in the first as an insertion, and if you have non-gaps in both strings you have a match. Then you continue with the rest of the strings.
 
 In the second function, the driver of the state-machine is the edits sequence, and the transformations can look like this:
 
-```haskel
+```haskell
 align (p, q, e, align_p, aligh_q) =
     match (e, p, q) with
         -- We are naturally done when there is nothing left and that
@@ -97,7 +97,19 @@ align (p, q, e, align_p, aligh_q) =
 ```
 
 
-
 ## Local alignments
+
+In a read mapper, you don't have a complete (also known as "global") alignment, as the ones we handled above. Instead, we have an alignment that includes the entirety of `p` and a sub-string of `x`, `x[i:j]`. We typically do not know what the substring is, only where it starts, `x[i:?]`, but the string of edits contains enough information to work out the full string. If you ran the `get_edits` function from above on `p` and the suffix of `x` starting at `i`, `x[i:]`, and you didn't abort or threw an exception if `x` wasn't empty when you made it through the edits (as I didn't in the Haskell code), then whatever you had produced for the second string would tell you which substring `p` would be transformed into. Just remove the gaps from it, and you would have `x[i:j]`.
+
+We won't bother with removing the gaps from the result, but for testing and validation purposes, it is useful to be able to extract the local alignment from the string `p`, the position `i`, and the string of edits, `e`.
+
+Write a function `local_align(p, x, i, e) -> (p',x[i:j])` that gives you the local alignment of `p` against `x` starting at position `i` and following the edits in `e`.
+
+I have found such a function quite useful for debugging purposes in the past, and you might as well.
+
+
+## Edit distance
+
+
 
 ## Run-length encoding
