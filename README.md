@@ -68,7 +68,7 @@ You can also think of the functions as functional transformations. In the first 
 
 ```haskell
 get_edits (p, q, res_p, res_q, edits) = 
-    match (p, q) with
+    case (p, q) of
         -- When we are through p and q (and we will at the same time), then
         -- we have our result (although we have built it in reverse here)
         ([], []) -> (rev res_p, rev res_q, rev edits),
@@ -85,7 +85,7 @@ In the second function, the driver of the state-machine is the edits sequence, a
 
 ```haskell
 align (p, q, e, align_p, aligh_q) =
-    match (e, p, q) with
+    case (e, p, q) of
         -- We are naturally done when there is nothing left and that
         -- should be e is empty. Something when wrong if either p or q
         -- is non-empty at this point
@@ -110,6 +110,11 @@ I have found such a function quite useful for debugging purposes in the past, an
 
 ## Edit distance
 
+When searching for approximative matches, we often put restrictions on how far you can modify `p` to get `p'` and still call it a match--we certainly will in this class. If we want to automtically test that our algorithm is doing the right thing, it can be useful to validate that all the matches it finds are indeed within the required distance from the pattern. Luckily, it is straightforward to get the distance between `p` and `p'` if we have a local alignment. For each column, i.e. letter on top of another letter, count what that column contributes to the distance. If you have an insertion or a deletion, i.e., there is a `-` in one of the rows, you have used one edit. If you have two letters, then it isn't a true *edit* if they are the same, so that counts as zero, but if the two letters are different, then it is a substitution, and that counts.
+
+The list of edits itself doesn't tell you how far you need to modify `p`, because you cannot distinguish between the free `M` operations that are matches and the mismatch `M`s that needs to be counted, but if you use your `local_align(p, x, i, e)` function from above, and then run through the two resulting strings, it is easy enough. Write a function, `edit_dist(p, x, i, e)`, that counts the number of edits.
+
+With this function in hand, you can easily check that all the matches your algorithm finds, much later in the class, are truly matches.
 
 
 ## Run-length encoding
