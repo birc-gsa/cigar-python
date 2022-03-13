@@ -25,7 +25,7 @@ def test_align() -> None:
         "MDMMIMMMMIIM"
     ) == ("acca-aagt--a", "a-caaatgtcca")
     assert align(
-        "a", "", "1D"
+        "a", "", "D"
     ) == ("a", "-")
 
 
@@ -38,5 +38,5 @@ def test_local_align() -> None:
         "MDMMIMMMMIIM"
     ) == ("acca-aagt--a", "a-caaatgtcca")
     assert local_align(
-        "a", "", 0, "1D"
+        "a", "", 0, "D"
     ) == ("a", "-")
