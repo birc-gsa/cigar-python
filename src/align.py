@@ -11,7 +11,7 @@ def get_edits(p: str, q: str) -> tuple[str, str, str]:
     Returns:
         str: The list of edit operations as a string.
 
-    >>> edits('ACCACAGT-CATA', 'A-CAGAGTACAAA')
+    >>> get_edits('ACCACAGT-CATA', 'A-CAGAGTACAAA')
     ('ACCACAGTCATA', 'ACAGAGTACAAA', 'MDMMMMMMIMMMM')
 
     """
