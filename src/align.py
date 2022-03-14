@@ -6,7 +6,7 @@ def get_edits(p: str, q: str) -> tuple[str, str, str]:
 
     Args:
         p (str): The first row in the pairwise alignment.
-        1 (str): The second row in the pairwise alignment.
+        q (str): The second row in the pairwise alignment.
 
     Returns:
         str: The list of edit operations as a string.
@@ -53,3 +53,22 @@ def local_align(p: str, x: str, i: int, edits: str) -> tuple[str, str]:
 
     """
     return "", ""
+
+
+def edit_dist(p: str, x: str, i: int, edits: str) -> int:
+    """Get the distance between p and the string that starts at x[i:]
+    using the edits.
+
+    Args:
+        p (str): The read string we have mapped against x
+        x (str): The longer string we have mapped against
+        i (int): The location where we have an approximative match
+        edits (str): The list of edits to apply, given as a string
+
+    Returns:
+        int: The distance from p to x[i:?] described by edits
+
+    >>> edit_dist("accaaagta", "cgacaaatgtcca", 2, "MDMMIMMMMIIM")
+    5
+    """
+    return -1

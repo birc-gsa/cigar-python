@@ -3,7 +3,8 @@
 from align import (
     align,
     get_edits,
-    local_align
+    local_align,
+    edit_dist
 )
 
 
@@ -40,3 +41,9 @@ def test_local_align() -> None:
     assert local_align(
         "a", "", 0, "D"
     ) == ("a", "-")
+
+
+def test_edit_dist() -> None:
+    """Testing the edit_dist() function."""
+    assert edit_dist("accaaagta", "cgacaaatgtcca", 2, "MDMMIMMMMIIM") == 5
+    assert edit_dist("acgttcga", "aaaaa", 0, "MMMDDDMM") == 6
