@@ -16,15 +16,8 @@ def get_edits(p: str, q: str) -> tuple[str, str, str]:
 
     """
     assert len(p) == len(q)
-    edits = [None] * len(p)
-    for i, _ in enumerate(p):
-        if p[i] == '-':
-            edits[i] = 'I'
-        elif q[i] == '-':
-            edits[i] = 'D'
-        else:
-            edits[i] = 'M'
-    return (p.replace('-', ''), q.replace('-', ''), "".join(edits))
+    # FIXME: do the actual calculations here
+    return '', '', ''
 
 
 def local_align(p: str, x: str, i: int, edits: str) -> tuple[str, str]:
@@ -43,25 +36,8 @@ def local_align(p: str, x: str, i: int, edits: str) -> tuple[str, str]:
     ('ACCACAGT-CATA', 'A-CAGAGTACAAA')
 
     """
-    j, k = 0, 0
-    row_p, row_q = [], []
-    for op in edits:
-        match op:
-            case 'M':
-                row_p.append(p[j])
-                row_q.append(x[i+k])
-                j += 1
-                k += 1
-            case 'D':
-                row_p.append(p[j])
-                row_q.append('-')
-                j += 1
-            case 'I':
-                row_p.append('-')
-                row_q.append(x[i+k])
-                k += 1
-
-    return "".join(row_p), "".join(row_q)
+    # FIXME: Compute the alignment rows
+    return '', ''
 
 
 def align(p: str, q: str, edits: str) -> tuple[str, str]:
@@ -79,9 +55,9 @@ def align(p: str, q: str, edits: str) -> tuple[str, str]:
     ('ACCACAGT-CATA', 'A-CAGAGTACAAA')
 
     """
-    # A full alignment here is just one that starts at index zero.
-    # If the strings are valid input, all of q will be aligned.
-    return local_align(p, q, 0, edits)
+    # FIXME: Compute the alignment rows
+    return '', ''
+
 
 def edit_dist(p: str, x: str, i: int, edits: str) -> int:
     """Get the distance between p and the string that starts at x[i:]
@@ -99,4 +75,5 @@ def edit_dist(p: str, x: str, i: int, edits: str) -> int:
     >>> edit_dist("accaaagta", "cgacaaatgtcca", 2, "MDMMIMMMMIIM")
     5
     """
+    # FIXME: Compute the edit distance
     return -1
